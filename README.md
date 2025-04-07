@@ -4,8 +4,8 @@
 Implement the base Flask API server and basic node management functionality.
 
 **Key Features Implemented:**
-- Created the API server using Flask.
-- Developed a Node Manager to handle adding and listing nodes.
+1. Created the API server using Flask.
+2. Developed a Node Manager to handle adding and listing nodes.
 
 **Commands:**
 ```bash
