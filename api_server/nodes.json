@@ -1,0 +1,16 @@
+{
+    "f605132b-6425-45da-9f86-19787388a7ac": {
+        "id": "f605132b-6425-45da-9f86-19787388a7ac",
+        "cpu_cores": 3,
+        "status": "Healthy",
+        "pods": [],
+        "last_heartbeat": "2025-04-07T12:53:51.883094"
+    },
+    "dd7d726c-2112-405a-a76a-86af7d497fe3": {
+        "id": "dd7d726c-2112-405a-a76a-86af7d497fe3",
+        "cpu_cores": 3,
+        "status": "Healthy",
+        "pods": [],
+        "last_heartbeat": "2025-04-07T13:43:32.405160"
+    }
+}
