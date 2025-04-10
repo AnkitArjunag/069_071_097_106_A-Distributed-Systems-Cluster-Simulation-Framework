@@ -11,3 +11,14 @@
     **curl -X POST** [http://localhost:5000/add_node](http://localhost:5000/add_node)
   - **List all registered nodes**  
     **curl -X GET** [http://localhost:5000/list_nodes](http://localhost:5000/list_nodes)
+
+## WEEK 2 – Heartbeat Monitoring & Pod Scheduling
+
+- **Objective:** Implement heartbeat-based node health monitoring and basic pod scheduling.
+- **Key Features Implemented:**
+  - Created /heartbeat route to receive signals from nodes.
+  - Marked nodes as Healthy or Unhealthy based on heartbeat timestamps.
+  - Scheduled pods to healthy nodes using a first-fit strategy.
+  - Introduced pods.json to persist pod data.
+  - Automatically rescheduled pods from unhealthy nodes.
+

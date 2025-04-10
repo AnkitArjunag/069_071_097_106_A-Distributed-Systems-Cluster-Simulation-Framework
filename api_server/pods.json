@@ -1,0 +1,14 @@
+{
+    "pod-1": {
+        "id": "pod-1",
+        "cpu": 2,
+        "node_id": "ccfc014f-4b60-4354-b5b8-acd257bb3c6a",
+        "status": "Running"
+    },
+    "pod-2": {
+        "id": "pod-2",
+        "cpu": 3,
+        "node_id": "8352d2f3-e750-46c0-8d20-ebb71dca33fa",
+        "status": "Running"
+    }
+}

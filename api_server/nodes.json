@@ -1,16 +1,33 @@
 {
-    "f605132b-6425-45da-9f86-19787388a7ac": {
-        "id": "f605132b-6425-45da-9f86-19787388a7ac",
-        "cpu_cores": 3,
-        "status": "Healthy",
+    "cb925fcf-778b-4328-9527-3b06b52675f6": {
+        "id": "cb925fcf-778b-4328-9527-3b06b52675f6",
+        "cpu_cores": 2,
+        "status": "Unhealthy",
         "pods": [],
-        "last_heartbeat": "2025-04-07T12:53:51.883094"
+        "last_heartbeat": "2025-04-10T11:04:14.765548"
     },
-    "dd7d726c-2112-405a-a76a-86af7d497fe3": {
-        "id": "dd7d726c-2112-405a-a76a-86af7d497fe3",
-        "cpu_cores": 3,
+    "8352d2f3-e750-46c0-8d20-ebb71dca33fa": {
+        "id": "8352d2f3-e750-46c0-8d20-ebb71dca33fa",
+        "cpu_cores": 4,
         "status": "Healthy",
-        "pods": [],
-        "last_heartbeat": "2025-04-07T13:43:32.405160"
+        "pods": [
+            {
+                "id": "pod-2",
+                "cpu": 3
+            }
+        ],
+        "last_heartbeat": "2025-04-10T11:08:09.098681"
+    },
+    "ccfc014f-4b60-4354-b5b8-acd257bb3c6a": {
+        "id": "ccfc014f-4b60-4354-b5b8-acd257bb3c6a",
+        "cpu_cores": 4,
+        "status": "Healthy",
+        "pods": [
+            {
+                "id": "pod-1",
+                "cpu": 2
+            }
+        ],
+        "last_heartbeat": "2025-04-10T11:08:08.718361"
     }
 }
