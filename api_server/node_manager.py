@@ -113,7 +113,6 @@ def check_node_health():
         save_nodes_to_file(nodes)
         save_pods(pods)
 
-
 def update_heartbeat(node_id):
     nodes = load_nodes_from_file()
     if node_id in nodes:
@@ -123,9 +122,12 @@ def update_heartbeat(node_id):
         return True
     return False
 
-def schedule_pod(pod_id, cpu_request, strategy='first_fit'):
+def schedule_pod(pod_id, cpu_request, strategy='best_fit'):
     nodes = load_nodes_from_file()
     pods = load_pods()
+
+    best_node_id = None
+    best_fit_score = float('inf')  # Lower is better
 
     for node_id, node in nodes.items():
         if node['status'] == 'Healthy':
@@ -133,20 +135,26 @@ def schedule_pod(pod_id, cpu_request, strategy='first_fit'):
             available_cpu = node['cpu_cores'] - used_cpu
 
             if available_cpu >= cpu_request:
-                # Update node's pod list
-                node['pods'].append({'id': pod_id, 'cpu': cpu_request})
-                save_nodes_to_file(nodes)
+                leftover = available_cpu - cpu_request
+                if leftover < best_fit_score:
+                    best_fit_score = leftover
+                    best_node_id = node_id
 
-                # Save pod to pods.json
-                pods[pod_id] = {
-                    'id': pod_id,
-                    'cpu': cpu_request,
-                    'node_id': node_id,
-                    'status': 'Running'
-                }
-                save_pods(pods)
+    if best_node_id:
+        # Schedule to the best fit node
+        best_node = nodes[best_node_id]
+        best_node['pods'].append({'id': pod_id, 'cpu': cpu_request})
+        save_nodes_to_file(nodes)
 
-                return node  # success
+        pods[pod_id] = {
+            'id': pod_id,
+            'cpu': cpu_request,
+            'node_id': best_node_id,
+            'status': 'Running'
+        }
+        save_pods(pods)
+
+        return best_node  # success
 
     return None  # no fit found
 

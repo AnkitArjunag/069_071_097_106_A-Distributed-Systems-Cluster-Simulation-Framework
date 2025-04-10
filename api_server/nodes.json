@@ -2,9 +2,14 @@
     "cb925fcf-778b-4328-9527-3b06b52675f6": {
         "id": "cb925fcf-778b-4328-9527-3b06b52675f6",
         "cpu_cores": 2,
-        "status": "Unhealthy",
-        "pods": [],
-        "last_heartbeat": "2025-04-10T11:04:14.765548"
+        "status": "Healthy",
+        "pods": [
+            {
+                "id": "pod-1",
+                "cpu": 2
+            }
+        ],
+        "last_heartbeat": "2025-04-10T16:28:13.013940"
     },
     "8352d2f3-e750-46c0-8d20-ebb71dca33fa": {
         "id": "8352d2f3-e750-46c0-8d20-ebb71dca33fa",
@@ -16,18 +21,20 @@
                 "cpu": 3
             }
         ],
-        "last_heartbeat": "2025-04-10T11:08:09.098681"
+        "last_heartbeat": "2025-04-10T16:28:13.705495"
     },
     "ccfc014f-4b60-4354-b5b8-acd257bb3c6a": {
         "id": "ccfc014f-4b60-4354-b5b8-acd257bb3c6a",
         "cpu_cores": 4,
         "status": "Healthy",
-        "pods": [
-            {
-                "id": "pod-1",
-                "cpu": 2
-            }
-        ],
-        "last_heartbeat": "2025-04-10T11:08:08.718361"
+        "pods": [],
+        "last_heartbeat": "2025-04-10T16:28:13.404878"
+    },
+    "f465276d-3c95-40f0-8f71-747e5b0fa481": {
+        "id": "f465276d-3c95-40f0-8f71-747e5b0fa481",
+        "cpu_cores": 3,
+        "status": "Healthy",
+        "pods": [],
+        "last_heartbeat": "2025-04-10T16:28:16.502600"
     }
 }

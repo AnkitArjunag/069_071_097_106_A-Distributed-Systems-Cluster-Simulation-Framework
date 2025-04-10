@@ -73,7 +73,7 @@ def schedule_pod_api():
     data = request.get_json()
     pod_id = data.get('pod_id')
     cpu_request = data.get('cpu_request')
-    strategy = data.get('strategy', 'first_fit')
+    strategy = data.get('strategy', 'best_fit')  # default is best_fit now
 
     if not pod_id or cpu_request is None:
         return jsonify({'error': 'Missing pod_id or cpu_request'}), 400
@@ -82,7 +82,11 @@ def schedule_pod_api():
     if result is None:
         return jsonify({'error': 'No suitable node found'}), 404
 
-    return jsonify({'message': f'Pod scheduled on node {result["id"]}'}), 200
+    return jsonify({
+        'message': f'Pod scheduled on node {result["id"]}',
+        'strategy_used': strategy
+    }), 200
+
 
 @app.route('/list_pods', methods=['GET'])
 def list_pods_api():

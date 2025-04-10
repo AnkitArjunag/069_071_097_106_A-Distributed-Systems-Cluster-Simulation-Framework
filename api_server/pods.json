@@ -2,7 +2,7 @@
     "pod-1": {
         "id": "pod-1",
         "cpu": 2,
-        "node_id": "ccfc014f-4b60-4354-b5b8-acd257bb3c6a",
+        "node_id": "cb925fcf-778b-4328-9527-3b06b52675f6",
         "status": "Running"
     },
     "pod-2": {
