@@ -18,7 +18,14 @@
 - **Key Features Implemented:**
   - Created /heartbeat route to receive signals from nodes.
   - Marked nodes as Healthy or Unhealthy based on heartbeat timestamps.
-  - Scheduled pods to healthy nodes using a first-fit strategy.
+  - Scheduled pods to healthy nodes using a best-fit strategy.
   - Introduced pods.json to persist pod data.
   - Automatically rescheduled pods from unhealthy nodes.
 
+## Week 3 - System Design and Documentation
+
+- **Objective:** Implement a Web Interface where the user can input new pods and new nodes
+- **Key Features Implemented:**
+  - Listed all the nodes which are created.
+  - Made a basic web interface for the user to interact.
+  - Handled different edge cases. 
