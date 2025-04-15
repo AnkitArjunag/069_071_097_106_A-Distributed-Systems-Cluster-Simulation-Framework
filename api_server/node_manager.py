@@ -12,16 +12,15 @@ pods = {}
 
 # Load nodes into memory at startup
 def load_nodes_from_file():
-    global nodes
-    if os.path.exists(DATA_FILE):
-        with open(DATA_FILE, 'r') as f:
-            try:
-                nodes = json.load(f)
-            except json.JSONDecodeError:
-                nodes = {}
-    else:
-        nodes = {}
-    return nodes
+    try:
+        with open('nodes.json', 'r') as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}
+
+def save_nodes_to_file(nodes):
+    with open('nodes.json', 'w') as f:
+        json.dump(nodes, f, indent=4)
 
 def load_pods():
     if os.path.exists(PODS_FILE):
@@ -37,9 +36,9 @@ def save_pods(pods):
         json.dump(pods, f, indent=4)
 
 # Save in-memory nodes to file
-def save_nodes_to_file(nodes):
-    with open(DATA_FILE, 'w') as f:
-        json.dump(nodes, f, indent=4)
+#def save_nodes_to_file(nodes):
+    #with open(DATA_FILE, 'w') as f:
+        #json.dump(nodes, f, indent=4)
 
 # Add a new node
 def add_node(cpu_cores):
@@ -57,7 +56,10 @@ def add_node(cpu_cores):
 
 # Get all nodes
 def list_nodes():
-    global nodes
+    nodes = load_nodes_from_file()
+    for node in nodes.values():
+        used_cpu = sum(p['cpu'] for p in node['pods'])
+        node['available_cpu'] = node['cpu_cores'] - used_cpu
     return list(nodes.values())
 
 # Delete a node
@@ -115,19 +117,26 @@ def check_node_health():
 
 def update_heartbeat(node_id):
     nodes = load_nodes_from_file()
-    if node_id in nodes:
-        nodes[node_id]['last_heartbeat'] = datetime.utcnow().isoformat()
-        nodes[node_id]['status'] = 'Healthy'
-        save_nodes_to_file(nodes)
-        return True
-    return False
+
+    if not nodes or node_id not in nodes:
+        return False  # Node not found
+
+    nodes[node_id]['last_heartbeat'] = datetime.utcnow().isoformat()
+    nodes[node_id]['status'] = 'Healthy'
+    save_nodes_to_file(nodes)
+    return True
+
 
 def schedule_pod(pod_id, cpu_request, strategy='best_fit'):
     nodes = load_nodes_from_file()
     pods = load_pods()
 
+    # Check for duplicate pod
+    if pod_id in pods:
+        return "duplicate"  # Pod already exists
+
     best_node_id = None
-    best_fit_score = float('inf')  # Lower is better
+    best_fit_score = float('inf')  # Lower leftover CPU is better
 
     for node_id, node in nodes.items():
         if node['status'] == 'Healthy':
@@ -141,9 +150,8 @@ def schedule_pod(pod_id, cpu_request, strategy='best_fit'):
                     best_node_id = node_id
 
     if best_node_id:
-        # Schedule to the best fit node
-        best_node = nodes[best_node_id]
-        best_node['pods'].append({'id': pod_id, 'cpu': cpu_request})
+        # Schedule to best-fit node
+        nodes[best_node_id]['pods'].append({'id': pod_id, 'cpu': cpu_request})
         save_nodes_to_file(nodes)
 
         pods[pod_id] = {
@@ -154,9 +162,17 @@ def schedule_pod(pod_id, cpu_request, strategy='best_fit'):
         }
         save_pods(pods)
 
-        return best_node  # success
+        return nodes[best_node_id]
 
-    return None  # no fit found
+    # No suitable node found, save as unscheduled
+    pods[pod_id] = {
+        'id': pod_id,
+        'cpu': cpu_request,
+        'node_id': None,
+        'status': 'Unscheduled'
+    }
+    save_pods(pods)
+    return None
 
 def list_pods():
     return list(load_pods().values())
@@ -180,6 +196,25 @@ def delete_pod(pod_id):
     save_pods(pods)
 
     return True
+
+def stop_node(node_id):
+    nodes = load_nodes_from_file()
+    if node_id in nodes:
+        nodes[node_id]['status'] = 'Unhealthy'
+        save_nodes_to_file(nodes)
+        return True
+    return False
+
+def start_node(node_id):
+    nodes = load_nodes_from_file()
+    if node_id in nodes:
+        nodes[node_id]['status'] = 'Healthy'
+        nodes[node_id]['last_heartbeat'] = datetime.utcnow().isoformat()
+        save_nodes_to_file(nodes)
+        return True
+    return False
+
+
 
 # Load nodes once on module load
 load_nodes_from_file()
